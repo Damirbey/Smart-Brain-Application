@@ -91,11 +91,18 @@ class App extends Component{
     if(this.state.inputText!== '')
     {
       this.setState({imageUrl:this.state.inputText});
-      app.models.predict(Clarifai.FACE_DETECT_MODEL,this.state.inputText)
+      fetch('https://rocky-sea-98675.herokuapp.com/clarifai',{
+      method:'post',
+      headers:{'Content-type':'application/json'},
+      body:JSON.stringify({
+        image:this.state.input
+         })
+      })
+      .then(data=>data.json())
       .then(response=>{
         if(response)
         {
-          fetch('http://localhost:3005/image',{
+          fetch('https://rocky-sea-98675.herokuapp.com/image',{
             method:'put',
             headers:{'Content-Type':'application/json'},
             body:JSON.stringify({
