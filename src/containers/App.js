@@ -8,7 +8,6 @@ import SignIn from '../components/SignIn/SignIn';
 import Register from '../components/Register/Register';
 import Profile from '../components/Profile/Profile';
 import Particles from "react-particles-js";
-import Clarifai from 'clarifai';
 import 'tachyons';
 import './App.css';
 
@@ -24,9 +23,6 @@ const particlesParameters={
   }
 }
 
-const app = new Clarifai.App({
-  apiKey: '7d0b3c60878247aca2be076cee85a2c1'
- });
 
 const initialState = {
       imageUrl:'',
@@ -91,18 +87,18 @@ class App extends Component{
     if(this.state.inputText!== '')
     {
       this.setState({imageUrl:this.state.inputText});
-      fetch('https://rocky-sea-98675.herokuapp.com/clarifai',{
+      fetch('http://localhost:3000/clarifai',{
       method:'post',
       headers:{'Content-type':'application/json'},
       body:JSON.stringify({
-        image:this.state.input
+        image:this.state.inputText
          })
       })
       .then(data=>data.json())
       .then(response=>{
         if(response)
         {
-          fetch('https://rocky-sea-98675.herokuapp.com/image',{
+          fetch('http://localhost:3000/image',{
             method:'put',
             headers:{'Content-Type':'application/json'},
             body:JSON.stringify({
@@ -122,7 +118,6 @@ class App extends Component{
     if(newRoute==='signIn' || newRoute==='register')
     {
       this.setState(initialState);
-      this.setState({signedIn:false})
     }
     else{
       this.setState({signedIn:true})
