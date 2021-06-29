@@ -39,7 +39,7 @@ function SignIn (props){
                 if(data!=='Wrong Credentials' && data!=="Something went wrong" && data!=='Not Found!')
                 {
                     props.onRouteChange('home');
-                    props.onLoadUser(data[0]);
+                    props.onLoadUser(data);
                 }
                 else{
                     setErrorMessage("Wrong Email or Password");

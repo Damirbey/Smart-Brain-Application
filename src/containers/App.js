@@ -154,7 +154,7 @@ class App extends Component{
             <FaceRecognitionImage imageUrl = {imageUrl} box={box}/>
           </React.Fragment>
           : route==='profile' ? 
-          <Profile user={user}/>
+          <Profile user={user} onLoadUser={this.onLoadUser}/>
           :(
             route==='register'?
             <Register onLoadUser={this.onLoadUser} onRouteChange={this.onRouteChange}/>
