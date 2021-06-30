@@ -34,7 +34,7 @@ function Register(props){
         document.querySelectorAll("input")[2].style.border="1px solid red";
         document.querySelectorAll("input")[3].style.border="1px solid red";
     }
-
+    const {user} = props;
 
     const onRegisterSubmit=()=>{
         if(registerName.length > 0 && registerSurname.length > 0 && registerEmail.length > 0 && registerPassword.length > 0)
@@ -54,9 +54,16 @@ function Register(props){
                 .then(response=>response.json())
                 .then(data=>{
                     if(data!=='Oops something went wrong' && data!=='Email is already taken')
-                    {
-                        props.onRouteChange('home');
-                        props.onLoadUser(data[0]);
+                    {  
+                        if(user.id===1)
+                        {
+                            props.onRouteChange('home'); 
+                        } 
+                        else{
+                            props.onRouteChange('home');
+                            props.onLoadUser(data[0]);
+                        }
+                        
                     }
                     else{
                         setErrorMessage("Unable to register user at the moment");
@@ -77,7 +84,7 @@ function Register(props){
             highlightAllFieldsRed();
         }
     }
-
+    
          return(
             <div>
                 {
@@ -92,7 +99,7 @@ function Register(props){
                     <main className="pa4 black-80">
                         <div className="measure">
                                 <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-                                <legend className="f2 fw6 ph0 mh0">Register</legend>
+                                <legend className="f2 fw6 ph0 mh0">{user.id === 1 ? "Create New User" : "Register"}</legend>
                                 <div className="mt3">
                                     <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
                                     <input 
@@ -124,7 +131,7 @@ function Register(props){
                                         onClick={onRegisterSubmit} 
                                         className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f5 dib" 
                                         type="submit" 
-                                        value="Register"
+                                        value={user.id === 1 ? "Create New User" : "Register" }
                                     />
                                 </div>
                             </div>

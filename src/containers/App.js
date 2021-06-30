@@ -7,9 +7,12 @@ import FaceRecognitionImage from '../components/FaceRecognitionImage/FaceRecogni
 import SignIn from '../components/SignIn/SignIn';
 import Register from '../components/Register/Register';
 import Profile from '../components/Profile/Profile';
+import AdministratorPanel from './AdministratorPanel/AdministratorPanel';
+import UserProfile from './AdministratorPanel/UserProfile';
 import Particles from "react-particles-js";
 import 'tachyons';
 import './App.css';
+
 
 const particlesParameters={
   particles:{
@@ -37,7 +40,8 @@ const initialState = {
         email:'',
         entries:0,
         joined:''
-      }
+      },
+      userToUpdate:{}
     }
 
 class App extends Component{
@@ -57,7 +61,8 @@ class App extends Component{
         email:'',
         entries:0,
         joined:''
-      }
+      },
+      userToUpdate:{}
     }
   }
   
@@ -84,7 +89,7 @@ class App extends Component{
   }
 
   onDetectButtonPress=()=>{
-    if(this.state.inputText!== '')
+    if(this.state.inputText.length > 0)
     {
       this.setState({imageUrl:this.state.inputText});
       fetch('http://localhost:3000/clarifai',{
@@ -117,7 +122,8 @@ class App extends Component{
   onRouteChange=(newRoute)=>{
     if(newRoute==='signIn' || newRoute==='register')
     {
-      this.setState(initialState);
+      if(this.state.user.id !== 1 || newRoute==='signIn')
+        this.setState(initialState);
     }
     else{
       this.setState({signedIn:true})
@@ -137,16 +143,27 @@ class App extends Component{
       }
     })
   }
+  
+  setUserToUpdateState=(userClicked)=>{
+    this.setState({userToUpdate:userClicked});
+  }
 
   render()
   {
-    const {imageUrl,box,route,signedIn,user} = this.state;
+    const {imageUrl,box,route,signedIn,user,userToUpdate} = this.state;
     return(
       <div>
         <Particles className="particles" params={particlesParameters}/>
-        <Navigation onRouteChange={this.onRouteChange} signedIn={signedIn}/>
+        <Navigation onRouteChange={this.onRouteChange} signedIn={signedIn} user={user}/>
         {
-          route === 'home' ? 
+          user.id === 1 ?
+          (route === 'register' ?
+          <Register onLoadUser={this.onLoadUser} onRouteChange={this.onRouteChange} user={user}/>
+          : route === 'userProfile' ? <UserProfile user={userToUpdate} onRouteChange={this.onRouteChange}/> 
+          : route === 'profile' ? <Profile user={user} onLoadUser={this.onLoadUser}/>
+          :<AdministratorPanel onRouteChange={this.onRouteChange} setUserToUpdateState={this.setUserToUpdateState}/>
+          )
+          :route === 'home' ? 
           <React.Fragment>
             <Logo/>
             <Rank name={user.name} entries={user.entries}/>
@@ -157,7 +174,7 @@ class App extends Component{
           <Profile user={user} onLoadUser={this.onLoadUser}/>
           :(
             route==='register'?
-            <Register onLoadUser={this.onLoadUser} onRouteChange={this.onRouteChange}/>
+            <Register onLoadUser={this.onLoadUser} onRouteChange={this.onRouteChange} user={user}/>
             :<SignIn onLoadUser={this.onLoadUser} onRouteChange={this.onRouteChange}/>
           )
         }
