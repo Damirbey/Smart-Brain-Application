@@ -92,7 +92,7 @@ class App extends Component{
     if(this.state.inputText.length > 0)
     {
       this.setState({imageUrl:this.state.inputText});
-      fetch('http://localhost:3000/clarifai',{
+      fetch('https://arctic-eds-99400.herokuapp.com/clarifai',{
       method:'post',
       headers:{'Content-type':'application/json'},
       body:JSON.stringify({
@@ -103,7 +103,7 @@ class App extends Component{
       .then(response=>{
         if(response)
         {
-          fetch('http://localhost:3000/image',{
+          fetch('https://arctic-eds-99400.herokuapp.com/image',{
             method:'put',
             headers:{'Content-Type':'application/json'},
             body:JSON.stringify({

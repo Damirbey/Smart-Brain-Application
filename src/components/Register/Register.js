@@ -41,7 +41,7 @@ function Register(props){
         {
             if(registerEmail.includes("@"))
             {
-                fetch('http://localhost:3000/register',{
+                fetch('https://arctic-eds-99400.herokuapp.com/register',{
                 method:'post',
                 headers:{'Content-Type':'application/json'},
                 body:JSON.stringify({

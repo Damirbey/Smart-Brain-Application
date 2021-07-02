@@ -14,7 +14,7 @@ const AdministratorPanel = ({onRouteChange,setUserToUpdateState})=>{
     }
 
     useEffect(()=>{
-        fetch('http://localhost:3000/users',{
+        fetch('https://arctic-eds-99400.herokuapp.com/users',{
             method:'get'
         }).then(res=>res.json())
         .then(receivedUsers=>setUsers(receivedUsers));
