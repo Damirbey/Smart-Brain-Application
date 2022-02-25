@@ -30,7 +30,7 @@ const particlesParameters={
 const initialState = {
       imageUrl:'',
       inputText:'',
-      box:{},
+      boxes:[],
       route:'signin',
       signedIn:false,
       user:{
@@ -51,7 +51,7 @@ class App extends Component{
     this.state={
       imageUrl:'',
       inputText:'',
-      box:{},
+      boxes:[],
       route:'signin',
       signedIn:false,
       user:{
@@ -66,22 +66,24 @@ class App extends Component{
     }
   }
   
-  calculateImageBox(data){
-    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
-    const image = document.getElementById("mainImage");
-    const width = Number(image.width);
-    const height = Number(image.height);
-    return{
-      leftCol:clarifaiFace.left_col*width,
-      topRow:clarifaiFace.top_row*height,
-      rightCol:width - (clarifaiFace.right_col*width),
-      bottomRow:height-(clarifaiFace.bottom_row*height)
-    }
+  calculateImageBoxes(data){
+    return data.outputs[0].data.regions.map(face=>{
+      clarifaiFace = face.region_info.bounding_box;
+      const image = document.getElementById("mainImage");
+      const width = Number(image.width);
+      const height = Number(image.height);
+      return{
+        leftCol:clarifaiFace.left_col*width,
+        topRow:clarifaiFace.top_row*height,
+        rightCol:width - (clarifaiFace.right_col*width),
+        bottomRow:height-(clarifaiFace.bottom_row*height)
+      }
+    })
   }
 
-  setBox(boxObj)
+  setBox(boxObjects)
   {
-    this.setState({box:boxObj});
+    this.setState({boxes:boxObjects});
   }
 
   onInputTextChange=(event)=>{
@@ -113,7 +115,7 @@ class App extends Component{
           .then(response=>response.json())
           .then(count=>this.setState(Object.assign(this.state.user,{entries:count})))
         }
-        this.setBox(this.calculateImageBox(response))
+        this.setBox(this.calculateImageBoxes(response))
       })
       .catch(err=>console.log(err));
     }
@@ -150,7 +152,7 @@ class App extends Component{
 
   render()
   {
-    const {imageUrl,box,route,signedIn,user,userToUpdate} = this.state;
+    const {imageUrl,boxes,route,signedIn,user,userToUpdate} = this.state;
     return(
       <div>
         <Particles className="particles" params={particlesParameters}/>
@@ -168,7 +170,7 @@ class App extends Component{
             <Logo/>
             <Rank name={user.name} entries={user.entries}/>
             <ImageLinkForm onInputTextChange={this.onInputTextChange} onDetectButtonPress={this.onDetectButtonPress}/>
-            <FaceRecognitionImage imageUrl = {imageUrl} box={box}/>
+            <FaceRecognitionImage imageUrl = {imageUrl} boxes={boxes}/>
           </React.Fragment>
           : route==='profile' ? 
           <Profile user={user} onLoadUser={this.onLoadUser}/>
