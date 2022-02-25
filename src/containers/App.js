@@ -68,7 +68,7 @@ class App extends Component{
   
   calculateImageBoxes(data){
     return data.outputs[0].data.regions.map(face=>{
-      clarifaiFace = face.region_info.bounding_box;
+      var clarifaiFace = face.region_info.bounding_box;
       const image = document.getElementById("mainImage");
       const width = Number(image.width);
       const height = Number(image.height);
