@@ -41,7 +41,7 @@ function Register(props){
         {
             if(registerEmail.includes("@"))
             {
-                fetch('https://arctic-eds-99400.herokuapp.com/register',{
+                fetch('https://smart-brain-server-918s.onrender.com/register',{
                 method:'post',
                 headers:{'Content-Type':'application/json'},
                 body:JSON.stringify({

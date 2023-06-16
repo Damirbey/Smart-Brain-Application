@@ -82,7 +82,7 @@ function Profile(props){
                 if(password === confirmPassword)
                 {
                     /*Submitting the records for update with passwords*/
-                    requestUpdate('https://arctic-eds-99400.herokuapp.com/profileUpdate')
+                    requestUpdate('https://smart-brain-server-918s.onrender.com/profileUpdate')
                     .then(res=>res.json())
                     .then(response=>{
                         if(response!=="Something went wrong")
@@ -113,7 +113,7 @@ function Profile(props){
             else{
                 resetField("#password");
                 resetField("#confirmPassword");
-                requestUpdate('https://arctic-eds-99400.herokuapp.com/profileUpdate')
+                requestUpdate('https://smart-brain-server-918s.onrender.com/profileUpdate')
                 .then(res=>res.json())
                 .then(response=>{
                     if(response!=="Something went wrong")

@@ -82,7 +82,7 @@ function UserProfile(props){
                 if(password === confirmPassword)
                 {
                     /*Submitting the records for update with passwords*/
-                    requestUpdate('https://arctic-eds-99400.herokuapp.com/profileUpdate')
+                    requestUpdate('https://smart-brain-server-918s.onrender.com/profileUpdate')
                     .then(res=>res.json())
                     .then(response=>{
                         if(response!=="Something went wrong")
@@ -113,7 +113,7 @@ function UserProfile(props){
             else{
                 resetField("#password");
                 resetField("#confirmPassword");
-                requestUpdate('https://arctic-eds-99400.herokuapp.com/profileUpdate')
+                requestUpdate('https://smart-brain-server-918s.onrender.com/profileUpdate')
                 .then(res=>res.json())
                 .then(response=>{
                     if(response!=="Something went wrong")
@@ -148,7 +148,7 @@ function UserProfile(props){
         var answer = window.confirm("Are you sure to delete the current user?");
         if(answer)
         {
-            fetch('https://arctic-eds-99400.herokuapp.com/deleteUser',{
+            fetch('https://smart-brain-server-918s.onrender.com/deleteUser',{
                 method:"delete",
                 headers:{"Content-Type":"Application/json"},
                 body:JSON.stringify({

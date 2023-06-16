@@ -14,7 +14,7 @@ const AdministratorPanel = ({onRouteChange,setUserToUpdateState})=>{
     }
 
     useEffect(()=>{
-        fetch('https://arctic-eds-99400.herokuapp.com/users',{
+        fetch('https://smart-brain-server-918s.onrender.com/users',{
             method:'get'
         }).then(res=>res.json())
         .then(receivedUsers=>setUsers(receivedUsers));
